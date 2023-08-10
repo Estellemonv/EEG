@@ -74,22 +74,15 @@ for i in range(len(data_files)):
     events_corrected = events - bitbrain_data_t[0]
     
 
-    #apply bandpass fonction
-    #call a matlab code to apply this function because the result with Python's function was very bad#
-    #bb_data = pd.DataFrame(scipy.io.loadmat('test.m')['concat']) 
+    ################################ apply bandpass fonction
     
-    #bb_data = pd.read_csv(path+'\\bandpass_matlab.csv',index_col=0,)
-    #bb_data.rename(columns={'0':'Time','1':'FC3','2':'FCz','3':'FC4','4':'C3','5':'Cz','6':'C4','7':'CP3','8':'CPZ','9':'CP4'},inplace=True)
-    #bb_data.to_csv(path+'\\bandpass_matalbv2.csv')
-    #bb_data = pd.DataFrame(mne.filter.filter_data(bitbrain_data.iloc[:,1].to_numpy(),method='fir',fir_window='hann',filter_length=128,sfreq=Fs,l_freq=None,h_freq=Fpass[1]),columns=["FC3"]) #l_freq=Fpass[0],
-    #bb_data.insert(0,'Time',value=bitbrain_data_t_corrected)
     bb_data = pd.DataFrame(columns=channels_names)
     for col in range(1,len(channels_names)+1):
         a = mne.filter.filter_data(bitbrain_data.iloc[:,col].to_numpy(),method='fir',fir_window='hann',filter_length=128,sfreq=Fs,l_freq=None,h_freq=35)
         bb_data[channels_names[col-1]]=a
 
     bb_data.insert(0,'Time',value=bitbrain_data_t)
-    #bb_data.to_csv(path+'\\bandpass_python.csv')
+ 
     #find the different position in dataframe
 
     #position of the first oe(open eyes) event
